@@ -21,6 +21,16 @@ public class Git {
         }
     }
 
+    public void add(String file) throws Exception {
+        try {
+            Blob blob = new Blob(file);
+            hash.put(file, Blob.hashFromString(file));
+            rewrite();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     private void rewrite() throws Exception {
         try {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("index")));
