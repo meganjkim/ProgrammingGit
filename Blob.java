@@ -5,25 +5,27 @@ import java.security.*;
 public class Blob {
     private String hash;
 
-    public Blob(String str) throws IOException {
+    public Blob(String fileName) throws IOException {
         File obj = new File("./objects");
         obj.mkdirs();
 
-        hash = hashFromString(readFromFile(str));
+        String fileContent = readFromFile(fileName);
+
+        hash = hashFromString(fileContent);
         File newFile = new File("./objects/" + hash);
         newFile.createNewFile();
 
-        writeToFile(readFromFile(str), str);
+        writeToFile(fileContent, "./objects/" + hash);
     }
 
     public String readFromFile(String fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
-        String str = "";
+        StringBuilder str = new StringBuilder();
         while (br.ready()) {
-            str += (char) br.read();
+            str.append((char) br.read());
         }
         br.close();
-        return str;
+        return str.toString();
     }
 
     public void writeToFile(String str, String fileName) throws IOException {
