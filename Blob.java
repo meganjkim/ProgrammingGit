@@ -1,9 +1,21 @@
 import java.util.*;
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 
 public class Blob {
+    private String hash;
+
+    public Blob(String str) throws IOException {
+        File obj = new File("./objects");
+        obj.mkdirs();
+
+        hash = hashFromString(readFromFile(str));
+        File newFile = new File("./objects/" + hash);
+        newFile.createNewFile();
+
+        writeToFile(readFromFile(str), str);
+    }
+
     public String readFromFile(String fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         String str = "";
@@ -14,7 +26,13 @@ public class Blob {
         return str;
     }
 
-    public static String encryptPassword(String str) {
+    public void writeToFile(String str, String fileName) throws IOException {
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(fileName + ".txt")));
+        pw.print(str);
+        pw.close();
+    }
+
+    public static String hashFromString(String str) {
         String sha1 = "";
         try {
             MessageDigest crypt = MessageDigest.getInstance("SHA-1");
