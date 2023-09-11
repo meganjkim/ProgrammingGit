@@ -31,13 +31,22 @@ public class Git {
         }
     }
 
+    public void remove(String file) throws Exception {
+        try {
+            if (!hash.containsKey(file))
+                throw new Exception("Error: File does not exist.");
+            hash.remove(file);
+            rewrite();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     private void rewrite() throws Exception {
         try {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("index")));
             for (String s : hash.keySet()) {
-
-                String hash = hash.get(s);
-
+                String str = hash.get(s);
                 pw.println(s + " : " + hash);
             }
             pw.close();
