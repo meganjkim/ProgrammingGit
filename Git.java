@@ -47,7 +47,7 @@ public class Git {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("index")));
             for (String s : hash.keySet()) {
                 String str = hash.get(s);
-                pw.println(s + " : " + hash);
+                pw.println(s + " : " + str);
             }
             pw.close();
         } catch (Exception e) {
