@@ -27,7 +27,7 @@ public class Blob {
     }
 
     public void writeToFile(String str, String fileName) throws IOException {
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(fileName + ".txt")));
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
         pw.print(str);
         pw.close();
     }
