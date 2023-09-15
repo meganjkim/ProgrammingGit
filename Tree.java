@@ -7,10 +7,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Tree {
-    private ArrayList<String> blobTree;
+    private ArrayList <String> blobTree;
 
     public Tree() {
         blobTree = new ArrayList();
@@ -25,8 +26,15 @@ public class Tree {
     }
 
     public void remove(String indexLine) {
-        remove (indexLine);
+        for (int i = blobTree.size() - 1; i >= 0; i--)
+        {
+            if (blobTree.get(i).contains(indexLine))
+            {
+                blobTree.remove (i);
+            }
+        }
     }
+
     public static String hashFromString(String str) {
         String sha1 = "";
         try {
@@ -57,6 +65,10 @@ public class Tree {
         for (int i = 0; i < blobTree.size (); i++)
         {
             sb.append (blobTree.get(i));
+            if (i < blobTree.size () - 1)
+            {
+                sb.append ("\n");
+            }
         }
         String hash = hashFromString (sb.toString());
         File tempFile = new File("./objects/" + hash);
