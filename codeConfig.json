@@ -70,8 +70,51 @@
             ,
             {
                 "methodName": "byteToHex",
-                "parameters": ["HashMap"],
-                "values": ["HashMap of Strings"]
+                "parameters": ["Hash"],
+                "values": ["Hash of blob"]
+            }
+        ]
+    }
+    ,
+    {
+        "className": "Tree",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [
+                ],
+                "values": [
+                ]
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "add",
+                "parameters": ["String"],
+                "values": ["Index line to add to tree"]
+            }
+            ,
+            {
+                "methodName": "remove",
+                "parameters": ["String"],
+                "values": ["Index line that is being removed"]
+            }
+            ,
+            {
+                "methodName": "hashFromString",
+                "parameters": ["String"],
+                "values": ["String"]
+            }
+            ,
+            {
+                "methodName": "byteToHex",
+                "parameters": ["Hash"],
+                "values": ["Hash of blob"]
+            }
+            ,
+            {
+                "methodName": "save",
+                "parameters": [],
+                "values": []
             }
         ]
     }
