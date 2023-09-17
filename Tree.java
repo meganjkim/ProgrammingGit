@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Tree {
-    private ArrayList <String> blobTree;
+    private ArrayList<String> blobTree;
 
     public Tree() {
         blobTree = new ArrayList();
@@ -19,18 +19,15 @@ public class Tree {
 
     public void add(String indexLine) {
 
-        if (!(blobTree.contains(indexLine)))
-        {
+        if (!(blobTree.contains(indexLine))) {
             blobTree.add(indexLine);
         }
     }
 
     public void remove(String indexLine) {
-        for (int i = blobTree.size() - 1; i >= 0; i--)
-        {
-            if (blobTree.get(i).contains(indexLine))
-            {
-                blobTree.remove (i);
+        for (int i = blobTree.size() - 1; i >= 0; i--) {
+            if (blobTree.get(i).contains(indexLine)) {
+                blobTree.remove(i);
             }
         }
     }
@@ -61,22 +58,24 @@ public class Tree {
     }
 
     public void save() throws IOException {
-        StringBuilder sb = new StringBuilder ();
-        for (int i = 0; i < blobTree.size (); i++)
-        {
-            sb.append (blobTree.get(i));
-            if (i < blobTree.size () - 1)
-            {
-                sb.append ("\n");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < blobTree.size(); i++) {
+            sb.append(blobTree.get(i));
+            if (i < blobTree.size() - 1) {
+                sb.append("\n");
             }
         }
-        String hash = hashFromString (sb.toString());
+        String hash = hashFromString(sb.toString());
         File tempFile = new File("./objects/" + hash);
-        tempFile.createNewFile ();
+        tempFile.createNewFile();
 
-        FileWriter fw = new FileWriter (tempFile);
-        fw.write (sb.toString());
-        fw.flush ();
-        fw.close ();
+        FileWriter fw = new FileWriter(tempFile);
+        fw.write(sb.toString());
+        fw.flush();
+        fw.close();
+    }
+
+    public ArrayList<String> getBlobTree() {
+        return blobTree;
     }
 }
