@@ -20,24 +20,24 @@ public class TreeTest {
 
     @Test
     void testAdd() {
-        tree.add("Entry 1");
+        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
         tree.add("Entry 2");
 
         ArrayList<String> blobTree = tree.getBlobTree();
         assertEquals(2, blobTree.size());
 
         // Test adding a duplicate entry
-        tree.add("Entry 1");
+        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
         assertEquals(2, blobTree.size());
     }
 
     @Test
     void testRemove() {
-        tree.add("Entry 1");
+        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
         tree.add("Entry 2");
 
         ArrayList<String> blobTree = tree.getBlobTree();
-        tree.remove("Entry 1");
+        tree.remove("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
 
         assertEquals(1, blobTree.size());
 
@@ -57,7 +57,7 @@ public class TreeTest {
 
     @Test
     void testSave() {
-        tree.add("Entry 1");
+        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
         tree.add("Entry 2");
 
         try {
@@ -65,7 +65,7 @@ public class TreeTest {
             ArrayList<String> blobTree = tree.getBlobTree();
 
             // Check if the file was created
-            String hash = Tree.hashFromString("Entry 1\nEntry 2");
+            String hash = Tree.hashFromString("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b\nEntry 2");
             File tempFile = new File("./objects/" + hash);
             assertTrue(tempFile.exists());
 
