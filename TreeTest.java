@@ -13,9 +13,9 @@ public class TreeTest {
     @BeforeEach
     void setUp() {
         tree = new Tree();
-         // Create the "./objects/" directory if it doesn't exist
-         File objectsDir = new File("./objects");
-         objectsDir.mkdirs();
+        // Create the "./objects/" directory if it doesn't exist
+        File objectsDir = new File("./objects");
+        objectsDir.mkdirs();
     }
 
     @Test
@@ -74,5 +74,14 @@ public class TreeTest {
         } catch (IOException e) {
             fail("IOException occurred during save: " + e.getMessage());
         }
+    }
+
+    @Test
+    void testByteToHex() {
+        byte[] inputBytes = new byte[] { 10, 20, 30, 40, 50 };
+        String expectedHex = "0a141e2832";
+
+        String hex = tree.byteToHex(inputBytes);
+        assertEquals(expectedHex, hex);
     }
 }

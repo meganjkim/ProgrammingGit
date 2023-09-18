@@ -47,7 +47,7 @@ public class Tree {
         return sha1;
     }
 
-    private static String byteToHex(final byte[] hash) {
+    public static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
         for (byte b : hash) {
             formatter.format("%02x", b);
