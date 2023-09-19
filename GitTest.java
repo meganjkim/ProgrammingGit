@@ -1,8 +1,16 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class GitTest {
     private Git git;
@@ -15,61 +23,57 @@ public class GitTest {
     @Test
     void testInit() throws Exception {
         git.init();
-        assertTrue(new File("./objects").exists());
+
+        File file = new File("index");
+        Path path = Paths.get("objects");
+
+        assertTrue("Index does not exist", file.exists());
+        assertTrue("Objects folder does not exist", Files.exists(path));
     }
 
     @Test
     void testAdd() throws Exception {
         git.init();
-    
-        // Create the test.txt file with some content
+
         File testFile = new File("test.txt");
         try (PrintWriter writer = new PrintWriter(testFile)) {
-            writer.println("This is a test.");
+            writer.print("This is a test.");
         }
-        
-        // Add the file to Git
+
         try {
             git.add("test.txt");
         } catch (Exception e) {
             fail("Adding the file to Git failed: " + e.getMessage());
         }
-        
-        // Ensure that the file was added (you can check if the file exists in the 'hash' directory)
-        assertTrue(new File("./objects/test.txt").exists());
-        
-        // Clean up: Remove the test.txt file
+
+        assertTrue("TestAdd works", new File("./objects/afa6c8b3a2fae95785dc7d9685a57835d703ac88").exists());
+
         testFile.delete();
     }
 
-    @Test
+    @Test // needs work
     void testRemove() throws Exception {
         git.init();
-    
-        // Create the test.txt file with some content
+
         File testFile = new File("test.txt");
         try (PrintWriter writer = new PrintWriter(testFile)) {
             writer.println("This is a test.");
         }
-        
-        // Add the file to Git
+
         try {
             git.add("test.txt");
         } catch (Exception e) {
             fail("Adding the file to Git failed: " + e.getMessage());
         }
-        
-        // Remove the file from Git
+
         try {
             git.remove("test.txt");
         } catch (Exception e) {
             fail("Removing the file from Git failed: " + e.getMessage());
         }
-        
-        // Ensure that the file was removed (you can check if the file does not exist in the 'hash' directory)
-        assertFalse(new File("./objects/test.txt").exists());
-        
-        // Clean up: Remove the test.txt file
+
+        assertFalse("testRemove worked", new File("./objects/test.txt").exists());
+
         testFile.delete();
     }
 
@@ -77,14 +81,35 @@ public class GitTest {
     void testRewrite() throws Exception {
         git.init();
 
-        // Add a file
-        git.add("test.txt");
+        File tempTestFile = new File ("test.txt");
+        try (PrintWriter writer = new PrintWriter(tempTestFile)) {
+            writer.println("This is a test.");
+        }
 
-        // Rewrite the index
+        try {
+            git.add(tempTestFile.getPath());
+        } catch (Exception e) {
+            fail("Adding the file to Git failed: " + e.getMessage());
+        }
+
         git.rewrite();
 
-        // Add assertions to check if rewriting the index was successful
-        // For example, you can check if the 'index' file exists
-        assertTrue(new File("index").exists());
+        File indexFile = new File("index");
+        assertTrue(indexFile.exists(), "index file does not exist");
+
+        String indexContents = new String(Files.readAllBytes(Paths.get("index")), StandardCharsets.UTF_8);
+
+        assertTrue(indexContents.contains(tempTestFile.getName()), "index file does not contain 'test.txt'");
+
+        tempTestFile.delete();
+    }
+
+    @AfterEach
+    void cleanup() {
+        // Delete the index file
+        File indexFile = new File("index");
+        if (indexFile.exists()) {
+            indexFile.delete();
+        }
     }
 }

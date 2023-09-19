@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,11 +26,10 @@ public class TreeTest {
         tree.add("Entry 2");
 
         ArrayList<String> blobTree = tree.getBlobTree();
-        assertEquals(2, blobTree.size());
+        assertEquals(2, blobTree.size(), "adding 2 entries -> size = 2");
 
-        // Test adding a duplicate entry
         tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
-        assertEquals(2, blobTree.size());
+        assertEquals(2, blobTree.size(), "adding duplicate entry doesn't have an effect");
     }
 
     @Test
@@ -39,11 +40,10 @@ public class TreeTest {
         ArrayList<String> blobTree = tree.getBlobTree();
         tree.remove("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
 
-        assertEquals(1, blobTree.size());
+        assertEquals(1, blobTree.size(), "Removing entry resulted in size of 1, correct");
 
-        // Test removing a non-existing entry
         tree.remove("Entry 3");
-        assertEquals(1, blobTree.size());
+        assertEquals(1, blobTree.size(), "Removing undefined entry had no effect");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class TreeTest {
         String expectedHash = "a5103f9c0b7d5ff69ddc38607c74e53d4ac120f2";
 
         String hash = Tree.hashFromString(input);
-        assertEquals(expectedHash, hash);
+        assertEquals("testhashFromString worked", expectedHash, hash);
     }
 
     @Test
@@ -64,12 +64,10 @@ public class TreeTest {
             tree.save();
             ArrayList<String> blobTree = tree.getBlobTree();
 
-            // Check if the file was created
             String hash = Tree.hashFromString("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b\nEntry 2");
             File tempFile = new File("./objects/" + hash);
-            assertTrue(tempFile.exists());
+            assertTrue(tempFile.exists(), "testSave worked");
 
-            // Clean up: Delete the file
             tempFile.delete();
         } catch (IOException e) {
             fail("IOException occurred during save: " + e.getMessage());
@@ -82,6 +80,6 @@ public class TreeTest {
         String expectedHex = "0a141e2832";
 
         String hex = tree.byteToHex(inputBytes);
-        assertEquals(expectedHex, hex);
+        assertEquals("testByteToHex worked", expectedHex, hex);
     }
 }
