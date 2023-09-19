@@ -51,7 +51,7 @@ public class GitTest {
         testFile.delete();
     }
 
-    @Test // needs work
+    @Test
     void testRemove() throws Exception {
         git.init();
 
