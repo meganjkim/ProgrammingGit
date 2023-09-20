@@ -1,0 +1,121 @@
+[
+    {
+        "className": "Git",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [],
+                "values": []
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "init",
+                "parameters": [],
+                "values": []
+            },
+            {
+                "methodName": "add",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "__TEST_FILE_NAME__"
+                ]
+            }
+            ,
+            {
+                "methodName": "remove",
+                "parameters": ["String"],
+                "values": "Test File Name"
+            }
+            ,
+            {
+                "methodName": "rewrite",
+                "parameters": [],
+                "values": []
+            }
+            
+        ]
+    },
+    {
+        "className": "Blob",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [
+                    "String"
+                ],
+                "values": [
+                    "__TEST_FILE_NAME__"
+                ]
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "readFromFile",
+                "parameters": ["String"],
+                "values": ["Test File Name"]
+            }
+            ,
+            {
+                "methodName": "writeToFile",
+                "parameters": ["String", "String"],
+                "values": ["String", "Test File Name"]
+            }
+            ,
+            {
+                "methodName": "hashFromString",
+                "parameters": ["String"],
+                "values": ["String"]
+            }
+            ,
+            {
+                "methodName": "byteToHex",
+                "parameters": ["Hash"],
+                "values": ["Hash of blob"]
+            }
+        ]
+    }
+    ,
+    {
+        "className": "Tree",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [
+                ],
+                "values": [
+                ]
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "add",
+                "parameters": ["String"],
+                "values": ["Index line to add to tree"]
+            }
+            ,
+            {
+                "methodName": "remove",
+                "parameters": ["String"],
+                "values": ["Index line that is being removed"]
+            }
+            ,
+            {
+                "methodName": "hashFromString",
+                "parameters": ["String"],
+                "values": ["String"]
+            }
+            ,
+            {
+                "methodName": "byteToHex",
+                "parameters": ["Hash"],
+                "values": ["Hash of blob"]
+            }
+            ,
+            {
+                "methodName": "save",
+                "parameters": [],
+                "values": []
+            }
+        ]
+    }
+]

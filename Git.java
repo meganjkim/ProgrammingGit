@@ -42,7 +42,7 @@ public class Git {
         }
     }
 
-    private void rewrite() throws Exception {
+    public void rewrite() throws Exception {
         try {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("index")));
             for (String s : hash.keySet()) {
