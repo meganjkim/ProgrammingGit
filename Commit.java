@@ -11,22 +11,40 @@ public class Commit {
     private String summary;
 
     public Commit(String author, String summary) {
-        this.treeSha1 = createTreeAndSave();
-        this.parentCommitSha1 = null; // No parent commit initially
         this.author = author;
         this.summary = summary;
         this.date = getCurrentDate();
+        this.treeSha1 = createTreeAndSave();
+        this.parentCommitSha1 = null; // No parent commit initially
     }
 
     public Commit(String parentCommitSha1, String author, String summary) {
-        this.treeSha1 = createTreeAndSave();
-        this.parentCommitSha1 = parentCommitSha1;
         this.author = author;
         this.summary = summary;
         this.date = getCurrentDate();
+        this.treeSha1 = createTreeAndSave();
+        this.parentCommitSha1 = parentCommitSha1;
     }
 
-    private String createTreeAndSave() {
+    public String getTreeSha1 ()
+    {
+        return treeSha1;
+    }
+    public String getParentCommitSha1()
+    {
+        return parentCommitSha1;
+    }
+    public String getAuthor()
+    {
+        return author;
+    }
+    public String getSummary ()
+    {
+        return summary;
+    }
+
+
+    public String createTreeAndSave() {
         Tree tree = new Tree();
         
         try {
@@ -49,10 +67,10 @@ public class Commit {
             commitData.append(date).append("\n");
             commitData.append(summary).append("\n");
 
-            // Generate SHA1 hash from commitData
+            
             String commitSha1 = generateSHA1(commitData.toString());
 
-            // Write commit data to a file in the 'objects' folder
+            
             File commitFile = new File("objects/" + commitSha1);
             try (PrintWriter writer = new PrintWriter(new FileWriter(commitFile))) {
                 writer.write(commitData.toString());
@@ -66,12 +84,12 @@ public class Commit {
         return date;
     }
 
-    private String getCurrentDate() {
+    public String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
         return dateFormat.format(new Date());
     }
 
-    private String generateSHA1(String input) {
+    public String generateSHA1(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             byte[] hash = digest.digest(input.getBytes());
