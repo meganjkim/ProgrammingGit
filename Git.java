@@ -24,7 +24,7 @@ public class Git {
     public void add(String file) throws Exception {
         try {
             Blob blob = new Blob(file);
-            hash.put(file, Blob.hashFromString(file));
+            hash.put(file, blob.getHash());
             rewrite();
         } catch (Exception e) {
             throw e;
@@ -44,12 +44,17 @@ public class Git {
 
     private void rewrite() throws Exception {
         try {
-            PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("index")));
+            //Switched print writer to string builder because the former cannot delete the last new empty line :)
+            //PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("index")));
+            StringBuilder bob = new StringBuilder();
             for (String s : hash.keySet()) {
                 String str = hash.get(s);
-                pw.println(s + " : " + str);
+                bob.append(s + " : " + str + "\n");
             }
-            pw.close();
+            if (bob.length() > 0){
+                bob.deleteCharAt(bob.length() - 1);
+            }
+            Utils.writeToFile(bob.toString(), "index");
         } catch (Exception e) {
             throw e;
         }
