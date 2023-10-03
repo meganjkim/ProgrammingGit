@@ -9,7 +9,7 @@ public class Tree {
         treeMap = new HashMap<String, String>();
     }
 
-    public void addTree(String str){
+    public void add(String str) throws Exception{
         String[] arr = str.split(" : ");
         if (arr.length != 3){
             throw new Exception ("Invalid string input format.");
@@ -18,12 +18,20 @@ public class Tree {
         String shaOfFile = arr[1];
         String fileName = arr[2];
 
-        if (typeOfFile.equals("blob"))_{
+        if (typeOfFile.equals("blob")){
+            if (blobMap.containsKey(fileName)){
+                throw new Exception("Already contains.");
+            }
+
             if (!blobMap.containsValue(shaOfFile)){
                 blobMap.put(fileName, shaOfFile);
             }
         }
         else if (typeOfFile.equals("tree")){
+            if (treeMap.containsKey(fileName)){
+                throw new Exception("Already contains.");
+            }
+
             if (!treeMap.containsValue(shaOfFile)){
                 treeMap.put(fileName, shaOfFile);
             }
@@ -33,7 +41,7 @@ public class Tree {
         }
     }
 
-    public boolean removeTree(String fileName){
+    public boolean remove(String fileName){
         if (blobMap.containsKey(fileName)){
             blobMap.remove(fileName);
             return true;
@@ -47,25 +55,25 @@ public class Tree {
         }
     }
 
-    public void writeToTree() throws Exception{
+    public void writeToObjects() throws Exception{
         StringBuilder sb = new StringBuilder();
         for (HashMap.Entry<String, String> entry : blobMap.entrySet()){
             String key = entry.getKey();
             String value = entry.getValue();
-            sb.append("blob : " + value + " : " + key);
+            sb.append("blob : " + value + " : " + key + "\n");
         }
 
         for (HashMap.Entry<String, String> entry : treeMap.entrySet()){
             String key = entry.getKey();
             String value = entry.getValue();
-            sb.append("tree : " + value + " : " + key);
+            sb.append("tree : " + value + " : " + key + "\n");
         }
 
         if (sb.length() > 0){
             sb.deleteCharAt(sb.length() - 1);
         }
 
-        Utils.writeToFile(sb.toString(), Blob.hashFromString(sb.toString()));
+        Utils.writeToFile(sb.toString(), "objects/" +  Blob.hashFromString(sb.toString()));
     }
 
 

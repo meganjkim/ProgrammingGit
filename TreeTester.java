@@ -1,9 +1,14 @@
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.rules.ExpectedException;
 
 public class TreeTester {
+    public ExpectedException exceptionRule = ExpectedException.none();
+    
     @BeforeAll
     static void setUpBeforeClass() throws Exception {
         /*
@@ -25,32 +30,68 @@ public class TreeTester {
 
     @Test
     @DisplayName("Testing Initialize")
-    public void testAddTree() throws Exception{
-        
-    }
+    public void testAdd() throws Exception{
+        Utils.deleteDirectory("objects");
 
-    @Test
-    @DisplayName("Testing Add Blob")
-    public void testRemoveTree() throws Exception{
-        
+        Tree tree = new Tree();
+        String path = "objects/bc323153dcce17da2a8cd62cb240abdc49f3fe7b";
+        tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
+        assertTrue(Utils.exists(path));
+
+        try{
+            tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
 
     @Test
     @DisplayName("Testing Remove Blob")
-    public void testRemoveBlob() throws Exception{
-        Git git = new Git();
-        git.init();
-        Utils.writeToFile("jcafjkdsljafjriouslxpouoqiupreu", "Test File");
-        Utils.writeToFile("dasoipupwee8r9270u9owierlhs", "Test File 2");
-        assertEquals(Utils.readFile("index"), "");
-        git.add("Test File");
-        git.add("Test File 2");
-        assertEquals(Utils.readFile("index"), "Test File 2 : f448461c097c5818f254949744957d6bda773d7a\nTest File : a15613f8dd329213217ae87a9e66b95562ce09e6");
-
-        git.remove("Test File");
-        assertEquals(Utils.readFile("index"), "Test File 2 : f448461c097c5818f254949744957d6bda773d7a");
-
-        Utils.deleteFile("index");
+    public void testRemove() throws Exception{
         Utils.deleteDirectory("objects");
+        
+        Tree tree = new Tree();
+        String path1 = "objects/bc323153dcce17da2a8cd62cb240abdc49f3fe7b";
+        tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
+        tree.writeToObjects();
+        assertTrue(Utils.exists(path1));
+
+        assertTrue(tree.remove("file1.txt"));
+
+        //tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
+        //assertTrue(Utils.exists(path1));
+
+        String path2 = "objects/14a7cd0f425d7a0ff49391ae32abfc853b44fa1f";
+        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b : file2.txt");
+        tree.writeToObjects();
+        assertTrue(Utils.exists(path2));
+
+        assertTrue(tree.remove("file2.txt"));
+
+        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b : file2.txt");
+        tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
+
+        //tree.remove("file1.txt");
+        //assertFalse(Utils.exists(path1));
+        //assertTrue(Utils.exists(path2));
+
+        //tree.remove("file2.txt");
+        //assertFalse(Utils.exists(path2));
+    }
+
+    @Test
+    @DisplayName("Testing Add Blob")
+    public void testWriteToObjects() throws Exception{
+        Utils.deleteDirectory("objects");
+
+        Tree tree = new Tree();
+        String path = "objects/bc323153dcce17da2a8cd62cb240abdc49f3fe7b";
+        tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
+        tree.writeToObjects();
+        assertTrue(Utils.exists(path));
+
+        tree.remove("file1.txt");
+        tree.writeToObjects();
+        assertTrue(Utils.exists("objects/da39a3ee5e6b4b0d3255bfef95601890afd80709"));
     }
 }
