@@ -4,7 +4,7 @@ import java.security.*;
 
 public class Blob {
     private String hash;
-
+    private String content;
     public Blob(String fileName) throws IOException {
         File obj = new File("./objects");
         obj.mkdirs();
@@ -15,7 +15,8 @@ public class Blob {
         File newFile = new File("./objects/" + hash);
         newFile.createNewFile();
 
-        writeToFile(fileContent, "./objects/" + hash);
+        content = readFromFile(fileName);
+        writeToFile("./objects/" + hash);
     }
 
     public String readFromFile(String fileName) throws IOException {
@@ -28,9 +29,9 @@ public class Blob {
         return str.toString();
     }
 
-    public void writeToFile(String str, String fileName) throws IOException {
+    public void writeToFile(String fileName) throws IOException {
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
-        pw.print(str);
+        pw.print(content);
         pw.close();
     }
 
@@ -57,6 +58,10 @@ public class Blob {
         String result = formatter.toString();
         formatter.close();
         return result;
+    }
+
+    public String getHash(){
+        return hash;
     }
 
 }
