@@ -36,6 +36,7 @@ public class TreeTester {
         Tree tree = new Tree();
         String path = "objects/bc323153dcce17da2a8cd62cb240abdc49f3fe7b";
         tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
+        tree.writeToObjects();
         assertTrue(Utils.exists(path));
 
         try{
